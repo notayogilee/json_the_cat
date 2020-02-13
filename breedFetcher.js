@@ -1,14 +1,19 @@
 const request = require('request');
 
-const input = process.argv[2];
 
-request(`https://api.thecatapi.com/v1/breeds/search?q=${input}`, (error, response, body) => {
-  console.log('error:', error);
-  console.log('statusCode:', response && response.statusCode);
-  console.log('body:', body);
-  if (body === '[]') {
-    console.log(`Sorry, we have no info on that type of cat`);
-  }
-  const data = JSON.parse(body);
-  console.log(data);
-});
+const fetchBreedDescription = function (breedName, callback) {
+  console.log('here');
+  request(`https://api.thecatapi.com/v1/breeds/search?q=${breedName}`, (error, response, body) => {  //  <= response?
+    if (error === null) {
+      if (body === '[]') {
+        console.log(`Sorry, we have no info on that type of cat`);
+      }
+      const desc = JSON.parse(body);
+      callback(error, desc);
+    } else {
+      callback(error, null);
+    }
+  });
+};
+
+module.exports = { fetchBreedDescription };

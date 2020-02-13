@@ -7,5 +7,6 @@ fetchBreedDescription(breedName, (error, desc) => {
     console.log('Error fetch details: ', error);
   } else {
     console.log(desc);
+    return (desc);
   }
 });

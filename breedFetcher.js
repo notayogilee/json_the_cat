@@ -2,14 +2,16 @@ const request = require('request');
 
 
 const fetchBreedDescription = function(breedName, callback) {
-  console.log('here');
-  request(`https://api.thecatapi.com/v1/breeds/search?q=${breedName}`, (error, response, body) => {  //  <= response?
+  request(`https://api.thecatapi.com/v1/breeds/search?q=${breedName}`, (error, response, body) => {  
     if (error === null) {
+      
       if (body === '[]') {
-        console.log(`Sorry, we have no info on that type of cat`);
-      }
-      const desc = JSON.parse(body);
-      callback(error, desc);
+      
+        callback(error, null);
+      }else {
+      const description = JSON.parse(body);
+      const desc = description[0].description;
+      callback(error, desc);}
     } else {
       callback(error, null);
     }
